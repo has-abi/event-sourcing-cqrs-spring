@@ -19,7 +19,7 @@ public class CommandAccountController {
     private final CommandAccountService accountService;
 
     @PostMapping
-    public ResponseEntity<CompletableFuture<String>> createAccount(CreateAccountDto createAccountDto) {
-        return new ResponseEntity<>(accountService.createAccount(createAccountDto), HttpStatus.CREATED);
+    public CompletableFuture<String> createAccount(CreateAccountDto createAccountDto) {
+        return accountService.createAccount(createAccountDto);
     }
 }
