@@ -1,4 +1,4 @@
-package com.ab.cqrs.command.events;
+package com.ab.cqrs.common.events;
 
 import com.ab.cqrs.common.enums.AccountStatus;
 import lombok.Getter;
@@ -9,13 +9,11 @@ import java.math.BigDecimal;
 public class AccountCreatedEvent extends BaseEvent<String> {
 
     private final BigDecimal balance;
-    private final String currency;
     private final AccountStatus status;
 
-    public AccountCreatedEvent(String id, BigDecimal balance, String currency, AccountStatus accountStatus) {
+    public AccountCreatedEvent(String id, BigDecimal balance, AccountStatus accountStatus) {
         super(id);
         this.balance = balance;
-        this.currency = currency;
         this.status = accountStatus;
     }
 }

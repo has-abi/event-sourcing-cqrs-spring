@@ -5,8 +5,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -21,4 +23,6 @@ public class Operation {
     private OperationType operationType;
     @ManyToOne
     private Account account;
+    @CreationTimestamp
+    private Date createdOn;
 }

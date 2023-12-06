@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateAccountDto {
-    private BigDecimal initialBalance;
+public class CreditAccountDto {
+    private String accountId;
+    private BigDecimal amount;
 }

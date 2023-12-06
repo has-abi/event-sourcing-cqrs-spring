@@ -1,4 +1,4 @@
-package com.ab.cqrs.command.events;
+package com.ab.cqrs.common.events;
 
 import com.ab.cqrs.common.enums.AccountStatus;
 import lombok.Getter;

@@ -1,14 +1,12 @@
-package com.ab.cqrs.command.dto;
+package com.ab.cqrs.query.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateAccountDto {
-    private BigDecimal initialBalance;
+public class GetAccountQueryDto {
+    private String accountId;
 }
