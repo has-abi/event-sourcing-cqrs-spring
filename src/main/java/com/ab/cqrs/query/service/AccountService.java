@@ -5,7 +5,8 @@ import com.ab.cqrs.common.events.AccountActivatedEvent;
 import com.ab.cqrs.common.events.AccountCreatedEvent;
 import com.ab.cqrs.common.events.AccountCreditedEvent;
 import com.ab.cqrs.common.events.AccountDebitedEvent;
-import com.ab.cqrs.query.dto.GetAccountQueryDto;
+import com.ab.cqrs.common.exceptions.ResourceNotFoundException;
+import com.ab.cqrs.query.dto.*;
 import com.ab.cqrs.query.entity.Account;
 import com.ab.cqrs.query.entity.Operation;
 import com.ab.cqrs.query.mappers.AccountMapper;
@@ -13,9 +14,12 @@ import com.ab.cqrs.query.repository.AccountRepository;
 import com.ab.cqrs.query.repository.OperationRepository;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.queryhandling.QueryHandler;
 import org.axonframework.queryhandling.QueryUpdateEmitter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -82,5 +86,28 @@ public class AccountService {
                             .getAccountId().equals(accountDebitedEvent.getId()),
                     accountMapper.accountToAccountResponseDto(account));
         });
+    }
+
+    @QueryHandler
+    public AccountResponseDto onGetAccountQuery(GetAccountQueryDto queryDto) {
+        var foundAccount = accountRepository.findById(queryDto.getAccountId())
+                .orElseThrow(() -> new ResourceNotFoundException("Account not found"));
+
+        return accountMapper.accountToAccountResponseDto(foundAccount);
+    }
+
+
+    @QueryHandler
+    public List<AccountResponseDto> getAllAccounts(GetAllAccountsQueryDto queryDto) {
+        return accountRepository.findAll().stream()
+                .map(accountMapper::accountToAccountResponseDto)
+                .toList();
+    }
+
+    @QueryHandler
+    public List<OperationResponseDto> getAccountOperations(GetAccountOperationsQueryDto queryDto) {
+        return operationRepository.findByAccountId(queryDto.getAccountId()).stream()
+                .map(accountMapper::operationToOperationResponseDto)
+                .toList();
     }
 }
